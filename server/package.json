@@ -1,0 +1,25 @@
+{
+  "name": "api-server-rsclone",
+  "version": "1.0.0",
+  "description": "server for rsclone",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "json-server --watch db.json --port 3000",
+    "nodemon": "nodemon index.js"
+
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "json-server": "^0.17.1",
+    "nodemon": "^2.0.20",
+    "sequelize-cli": "^6.6.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "pg": "^8.9.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.28.0"
+  }
+}
