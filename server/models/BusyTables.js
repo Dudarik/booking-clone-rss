@@ -3,7 +3,7 @@ import { NUMBER, TIME } from 'sequelize';
 import { RestaurantsModel } from './RestaurantsModel.js';
 
 const BusyTablesModel = sequelize.define(
-  'tables',
+  'busytables',
   {
     id: {
       type: NUMBER,
@@ -31,8 +31,8 @@ const BusyTablesModel = sequelize.define(
   }
 );
 
-BusyTablesModel.belongsTo(RestaurantsModel, {
-  foreignKey: 'rid',
-});
+// BusyTablesModel.belongsTo(RestaurantsModel, {
+//   foreignKey: 'rid',
+// });
 
 export { BusyTablesModel };

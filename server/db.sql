@@ -6,6 +6,12 @@ create table users (
 	role text default 'user' not null
 );
 
+create table tokens (
+  id serial primary key,
+  uid int references users(uid),
+  refreshtoken text not null
+);
+
 create table restaurants (
   rid serial primary key,
   title text not null,

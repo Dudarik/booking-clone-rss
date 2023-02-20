@@ -28,11 +28,11 @@ const CommentsModel = sequelize.define(
   }
 );
 
-CommentsModel.hasMany(RestaurantsModel, {
-  foreignKey: 'rid',
-});
-CommentsModel.hasMany(UsersModel, {
-  foreignKey: 'uid',
-});
+// CommentsModel.hasMany(RestaurantsModel, {
+//   foreignKey: 'rid',
+// });
+// CommentsModel.hasMany(UsersModel, {
+//   foreignKey: 'uid',
+// });
 
 export { CommentsModel };

@@ -20,7 +20,7 @@ const RestaurantsModel = sequelize.define(
   }
 );
 
-RestaurantsModel.hasMany(TablesModel, { foreignKey: 'restaurantid' });
-RestaurantsModel.hasMany(CommentsModel, { foreignKey: 'restaurantid' });
+// RestaurantsModel.hasMany(TablesModel, { foreignKey: 'restaurantid' });
+// RestaurantsModel.hasMany(CommentsModel, { foreignKey: 'restaurantid' });
 
 export { RestaurantsModel };

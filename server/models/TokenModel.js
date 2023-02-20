@@ -1,20 +1,23 @@
 import { sequelize } from '../db_settings/index.js';
 import { STRING, NUMBER } from 'sequelize';
-import { RestaurantsModel } from './RestaurantsModel.js';
+import { UsersModel } from './UsersModel.js';
 
-const TablesModel = sequelize.define(
-  'tables',
+const TokenModel = sequelize.define(
+  'tokens',
   {
-    tid: {
+    id: {
       type: NUMBER,
       autoIncrement: true,
       primaryKey: true,
     },
-    restaurantid: {
+    uid: {
       type: NUMBER,
       foreignKey: true,
     },
-    address: STRING,
+    refreshtoken: {
+      type: STRING,
+      require: true,
+    },
   },
   {
     createdAt: false,
@@ -22,8 +25,8 @@ const TablesModel = sequelize.define(
   }
 );
 
-// TablesModel.belongsTo(RestaurantsModel, {
-//   foreignKey: 'rid',
+// TokenModel.belongsTo(UsersModel, {
+//   foreignKey: 'uid',
 // });
 
-export { TablesModel };
+export { TokenModel };
