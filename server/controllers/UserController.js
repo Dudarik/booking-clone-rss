@@ -74,6 +74,7 @@ class UserController {
     try {
       // console.log(req);
       const users = await userService.getUsers([]);
+
       return res.json({ status: 200, data: users });
     } catch (error) {
       res.json({

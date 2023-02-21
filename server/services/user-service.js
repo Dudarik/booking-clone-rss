@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt';
-import { where } from 'sequelize';
 import { sequelize } from '../db_settings/index.js';
 
 import { UsersModel } from '../models/UsersModel.js';
