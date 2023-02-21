@@ -7,6 +7,17 @@ import { tokenService } from './token-service.js';
 const SALT_ROUNDS = 2;
 
 class UserService {
+  async generateUserTokens(user) {
+    const tokens = tokenService.generateTokens({ uid: user.uid, email: user.email });
+    await tokenService.saveRefreshTokenToDB(user.uid, tokens.rToken);
+
+    return {
+      ...tokens,
+      uid: user.uid,
+      email: user.email,
+    };
+  }
+
   async signup(user) {
     const { email, password } = user;
     await sequelize.authenticate();
@@ -22,16 +33,17 @@ class UserService {
     // console.log('newUser', newUser);
     const addedUser = await UsersModel.create(newUser);
 
+    return this.generateUserTokens(addedUser);
     // console.log('user', user);
-    const tokens = tokenService.generateTokens({ uid: addedUser.uid, email: addedUser.email });
-    await tokenService.saveRefreshTokenToDB(addedUser.uid, tokens.rToken);
+    // const tokens = tokenService.generateTokens({ uid: addedUser.uid, email: addedUser.email });
+    // await tokenService.saveRefreshTokenToDB(addedUser.uid, tokens.rToken);
 
-    // await sequelize.close();
-    return {
-      ...tokens,
-      uid: addedUser.uid,
-      email: addedUser.email,
-    };
+    // // await sequelize.close();
+    // return {
+    //   ...tokens,
+    //   uid: addedUser.uid,
+    //   email: addedUser.email,
+    // };
   }
 
   async signin(email, password) {
@@ -53,15 +65,17 @@ class UserService {
       throw new Error('Wrong password');
     }
 
-    const tokens = tokenService.generateTokens({ uid: user.uid, email: user.email });
-    await tokenService.saveRefreshTokenToDB(user.uid, tokens.rToken);
+    return this.generateUserTokens(user);
 
-    // await sequelize.close();
-    return {
-      ...tokens,
-      uid: user.uid,
-      email: user.email,
-    };
+    // const tokens = tokenService.generateTokens({ uid: user.uid, email: user.email });
+    // await tokenService.saveRefreshTokenToDB(user.uid, tokens.rToken);
+
+    // // await sequelize.close();
+    // return {
+    //   ...tokens,
+    //   uid: user.uid,
+    //   email: user.email,
+    // };
   }
 
   async logout(rtoken) {
@@ -79,15 +93,17 @@ class UserService {
       throw new Error('User is not authorized');
     }
 
-    const tokens = tokenService.generateTokens({ uid: user.uid, email: user.email });
-    await tokenService.saveRefreshTokenToDB(user.uid, tokens.rToken);
+    return this.generateUserTokens(user);
 
-    // await sequelize.close();
-    return {
-      ...tokens,
-      uid: user.uid,
-      email: user.email,
-    };
+    // const tokens = tokenService.generateTokens({ uid: user.uid, email: user.email });
+    // await tokenService.saveRefreshTokenToDB(user.uid, tokens.rToken);
+
+    // // await sequelize.close();
+    // return {
+    //   ...tokens,
+    //   uid: user.uid,
+    //   email: user.email,
+    // };
   }
 }
 
