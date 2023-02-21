@@ -2,7 +2,7 @@
   <Teleport to="body">
     <transition name="modal-anime">
       <div class="modal" v-if="modalIsShow" @click="closeModal">
-        <section v-show="!orderIsCompleted" @click.stop @submit.prevent class="modal__form">
+        <section v-show="!isCompleted" @click.stop @submit.prevent class="modal__form">
           <span class="modal__form--close" @click="closeModal">X</span>
           <h2 class="modal__form--header">{{ $t('modal.reg') }}</h2>
           <section class="modal__form--info">
@@ -37,7 +37,7 @@
           </section>
           <button @click="submitRegForm">Submit</button>
         </section>
-        <span v-show="orderIsCompleted" class="modal__success">Completed!</span>
+        <span v-show="isCompleted" class="modal__success">Completed!</span>
       </div>
     </transition>
   </Teleport>
@@ -49,7 +49,7 @@ import { watch } from 'vue';
 import { storeToRefs } from 'pinia';
 
 const modalStore = useModal();
-const { isAllValid, modalIsShow, orderIsCompleted, buyAttemt } = storeToRefs(modalStore);
+const { isAllValid, modalIsShow, isCompleted, buyAttemt } = storeToRefs(modalStore);
 const closeModal = () => {
   modalStore.$reset();
   modalIsShow.value = false;
@@ -65,10 +65,10 @@ watch(modalIsShow, (newModalIsShow) => {
 
 const submitRegForm = (): void => {
   if (isAllValid.value) {
-    orderIsCompleted.value = true;
+    isCompleted.value = true;
     buyAttemt.value = false;
     setTimeout((): void => {
-      orderIsCompleted.value = false;
+      isCompleted.value = false;
       closeModal();
     }, 1000);
     return;

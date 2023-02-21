@@ -6,7 +6,7 @@ import { validationInfo } from './validation';
 export const useModal = defineStore('Modal', () => {
   const modalIsShow = ref(false);
   const buyAttemt = ref(false);
-  const orderIsCompleted = ref(false);
+  const isCompleted = ref(false);
 
   const validation: IValidation<TValidationField> = reactive(validationInfo);
 
@@ -38,7 +38,7 @@ export const useModal = defineStore('Modal', () => {
   return {
     modalIsShow,
     buyAttemt,
-    orderIsCompleted,
+    isCompleted,
     validation,
     validate,
     isAllValid,

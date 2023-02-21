@@ -2,7 +2,7 @@
   <Teleport to="body">
     <transition name="modal-anime">
       <div class="modal" v-if="modalIsShow" @mousedown="closeModal">
-        <section v-show="!orderIsCompleted" @mousedown.stop @submit.prevent class="modal__form">
+        <section v-show="!isCompleted" @mousedown.stop @submit.prevent class="modal__form">
           <span class="modal__form--close" @click="closeModal">X</span>
           <h2 class="modal__form--header">{{ $t('titles.log') }}</h2>
           <section class="modal__form--info">
@@ -10,14 +10,14 @@
               <div class="row">
                 <form class="col s12">
                   <div class="row">
-                    <div class="input-field col s6">
+                    <div class="input-field col s12">
                       <i class="material-icons prefix">account_circle</i>
                       <input id="icon_prefix" type="text" class="validate" />
                       <label for="icon_prefix">{{ $t('form.email') }}</label>
                     </div>
-                    <div class="input-field col s6">
-                      <i class="material-icons prefix">phone</i>
-                      <input id="icon_telephone" type="tel" class="validate" />
+                    <div class="input-field col s12">
+                      <i class="material-icons prefix"></i>
+                      <input id="icon_telephone" type="text" class="validate" />
                       <label for="icon_telephone">{{ $t('form.password') }}</label>
                     </div>
                   </div>
@@ -26,7 +26,7 @@
             </div>
           </section>
         </section>
-        <span v-show="orderIsCompleted" class="modal__success">Completed!</span>
+        <span v-show="isCompleted" class="modal__success">Completed!</span>
       </div>
     </transition>
   </Teleport>
@@ -40,7 +40,7 @@ import { storeToRefs } from 'pinia';
 
 const modalStore = useModal();
 
-const { modalIsShow, orderIsCompleted, buyAttemt } = storeToRefs(modalStore);
+const { modalIsShow, isCompleted, buyAttemt } = storeToRefs(modalStore);
 const closeModal = () => {
   modalStore.$reset();
   modalIsShow.value = false;

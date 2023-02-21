@@ -55,7 +55,7 @@ export const validationInfo = {
     value: '',
     isValid: false,
     isAlert: false,
-    regex: /^[A-Za-z]\w{3,14}$/,
+    regex: /^[a-zA-Z\-0-9]{3,}$/,
     placeholder: '111',
     alert: 'Password is incorrect. Length isn`t shorter than 3',
     modify: modifyPassword,
