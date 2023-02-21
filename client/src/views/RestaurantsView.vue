@@ -1,6 +1,8 @@
 <template>
   <HeaderTemplate />
-  <main></main>
+  <main>
+    <!-- Здесь должны быть карточки ресторанов -->
+  </main>
   <FooterTemplate />
 </template>
 

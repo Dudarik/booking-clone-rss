@@ -23,9 +23,6 @@
                   </div>
                 </form>
               </div>
-              <AppInput :field="'fullName'" />
-              <AppInput :field="'phone'" />
-              <AppInput :field="'email'" />
             </div>
           </section>
         </section>

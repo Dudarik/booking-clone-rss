@@ -11,7 +11,6 @@ export type TValidationField = {
   isAlert: boolean;
   readonly regex: RegExp;
   readonly placeholder: string;
-  readonly header: string;
   readonly alert: string;
   modify: (this: TValidationField) => void;
   maxLength?: string;

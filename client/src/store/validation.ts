@@ -27,7 +27,6 @@ export const validationInfo = {
     isValid: false,
     isAlert: false,
     regex: /^[a-zа-я]{2,}\s+[a-zа-я]{2,}/i,
-    header: 'Username',
     placeholder: 'Firstname Lastname',
     alert: 'Full name is incorrect. Should be composed no less than two words, at least 2 letters length each',
     modify: modifyName,
@@ -37,7 +36,6 @@ export const validationInfo = {
     isValid: false,
     isAlert: false,
     regex: /^\+[0-9]([\s\-(]?[0-9][\s)]?){8,}$/,
-    header: 'Phone number',
     placeholder: '+XXX XX XXX-XX-XX',
     alert: 'Phone number is incorrect. Should start with +, length isn`t shorter than 9 numbers',
     modify: modifyPhone,
@@ -49,7 +47,6 @@ export const validationInfo = {
     regex:
       // eslint-disable-next-line no-useless-escape
       /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i,
-    header: 'E-mail',
     placeholder: 'example@mail.com',
     alert: 'Email is incorrect. example@mail.com',
     modify: modifyEmail,
@@ -59,7 +56,6 @@ export const validationInfo = {
     isValid: false,
     isAlert: false,
     regex: /^[A-Za-z]\w{3,14}$/,
-    header: 'Password',
     placeholder: '111',
     alert: 'Password is incorrect. Length isn`t shorter than 3',
     modify: modifyPassword,
