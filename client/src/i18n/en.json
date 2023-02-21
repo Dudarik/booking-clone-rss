@@ -1,0 +1,27 @@
+{
+    "titles": {
+        "logo": "Restaurants",
+        "restPage": "Restaurants",
+        "aboutPage": "About"
+    },
+    "modal": {
+        "log": "Sign in",
+        "reg": "Sign up",
+        "out": "Sign out"
+    },
+    "form": {
+        "username": "Username",
+        "email": "E-mail",
+        "phone": "Telephone",
+        "password": "Password"
+    },
+    "checkbox": {
+        "theme": "Theme",
+        "language": "Language"
+    },
+    "langs": {
+        "eng": "English",
+        "rus": "Russian"
+    },
+    "tables": "Tables"
+}

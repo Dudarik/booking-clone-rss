@@ -10,8 +10,12 @@
   },
   "dependencies": {
     "core-js": "^3.8.3",
+    "material-design-icons-iconfont": "^6.7.0",
+    "materialize-css": "^1.0.0-rc.2",
+    "pinia": "^2.0.31",
     "register-service-worker": "^1.7.2",
     "vue": "^3.2.13",
+    "vue-i18n": "^9.2.2",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"
   },
@@ -40,7 +44,8 @@
     "sass": "^1.32.7",
     "sass-loader": "^12.0.0",
     "ts-jest": "^27.0.4",
-    "typescript": "~4.5.5"
+    "typescript": "~4.5.5",
+    "vue-kinesis": "^2.0.5"
   },
   "eslintConfig": {
     "root": true,

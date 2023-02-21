@@ -1,0 +1,26 @@
+{
+    "titles": {
+        "logo": "Restaurants",
+        "restPage": "Рестораны",
+        "aboutPage": "О нас"
+    },
+    "modal": {
+        "log": "Войти",
+        "reg": "Регистрация",
+        "out": "Выйти"
+    },
+    "form": {
+        "username": "Имя",
+        "email": "E-mail",
+        "phone": "Телефон",
+        "password": "Пароль"
+    },
+    "checkbox": {
+        "language": "Язык"
+    },
+    "langs": {
+        "eng": "Английский",
+        "rus": "Русский"
+    },
+    "tables": "TСтолы"
+}
