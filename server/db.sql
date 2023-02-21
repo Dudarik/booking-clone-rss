@@ -3,7 +3,9 @@ create table users (
 	email text unique not null,
 	password text not null,
 	username text,
-	role text default 'user' not null
+  phonenumber text,
+	role text default 'user' not null,
+  isactive boolean default false
 );
 
 create table tokens (

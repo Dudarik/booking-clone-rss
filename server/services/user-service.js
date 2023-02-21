@@ -63,6 +63,10 @@ class UserService {
       email: user.email,
     };
   }
+
+  async logout(rtoken) {
+    await tokenService.deleteTokenFromDB(rtoken);
+  }
 }
 
 export const userService = new UserService();

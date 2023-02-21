@@ -2,6 +2,7 @@ import { userService } from '../services/user-service.js';
 import { validationResult } from 'express-validator';
 
 const MAX_AGE_COOKIE = 60 ** 3 * 24 * 1000;
+const COOKIE_NAME = 'rtoken';
 
 class UserController {
   async signup(req, res) {
@@ -14,7 +15,7 @@ class UserController {
       }
       // console.log(req.body);
       const user = await userService.signup({ email, password, username, role });
-      res.cookie('rtoken', user.rToken, { maxAge: MAX_AGE_COOKIE, httpOnly: true });
+      res.cookie(COOKIE_NAME, user.rToken, { maxAge: MAX_AGE_COOKIE, httpOnly: true });
       return res.json({ status: 200, user });
     } catch (error) {
       // console.log(error);
@@ -42,7 +43,21 @@ class UserController {
 
   async logout(req, res) {
     try {
-    } catch (error) {}
+      const { rtoken } = req.cookies;
+
+      // console.log('cockie', req.cookies);
+      // console.log('rToken', rtoken);
+      if (!rtoken) {
+        throw new Error(`Wrong token, or undefined: ${rtoken}`);
+      }
+      await userService.logout(rtoken);
+
+      res.clearCookie(COOKIE_NAME);
+      // console.log('logout ok');
+      return res.json({ status: 200, message: 'logout ok' });
+    } catch (error) {
+      console.log(error);
+    }
   }
   async refresh(req, res) {
     try {

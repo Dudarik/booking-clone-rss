@@ -24,6 +24,15 @@ class TokenService {
     const newToken = await TokenModel.create({ uid, refreshtoken });
     return newToken;
   }
+
+  async deleteTokenFromDB(rtoken) {
+    // console.log('rtoken', rtoken);
+    const existToken = await TokenModel.findOne({ where: { refreshtoken: rtoken } });
+    // console.log(existToken);
+    if (existToken) {
+      await TokenModel.destroy({ where: { refreshtoken: rtoken } });
+    }
+  }
 }
 
 export const tokenService = new TokenService();
