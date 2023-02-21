@@ -1,5 +1,3 @@
-'use strict';
-
 // import { sequelize } from '../db_settings/index.js';
 
 // import { UsersModel } from '../models/UsersModel.js';
@@ -9,12 +7,16 @@ class UserController {
   async signup(req, res) {
     try {
       const { email, password, username, role } = req.body;
-      console.log(req.body);
-      const user = await userService.signup(email, password, username, role);
+      // console.log(req.body);
+      const user = await userService.signup({ email, password, username, role });
       res.cookie('rtoken', user.rToken, { maxAge: 60 ** 3 * 24 * 1000, httpOnly: true });
-      return res.json(user);
+      return res.json({ status: 200, user });
     } catch (error) {
       console.log(error);
+      res.json({
+        status: 422,
+        error: error.message,
+      });
     }
   }
 

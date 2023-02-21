@@ -1,9 +1,10 @@
 import { Sequelize } from 'sequelize';
+import * as dotenv from 'dotenv';
 
-const DB_URL =
-  'postgres://booking_clone_sfgi_user:PBGG9nhHCZUaO1dMsVVt9itFYwtZ7jHt@dpg-cfouq82rrk0fd9qho5tg-a.frankfurt-postgres.render.com/booking_clone_sfgi';
+dotenv.config();
 
-export const sequelize = new Sequelize(DB_URL, {
+// console.log(process.env.DB_URL);
+export const sequelize = new Sequelize(process.env.DB_URL, {
   dialect: 'postgres',
   protocol: 'postgres',
   dialectOptions: {

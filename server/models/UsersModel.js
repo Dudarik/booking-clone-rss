@@ -1,5 +1,5 @@
 import { sequelize } from '../db_settings/index.js';
-import { STRING, NUMBER } from 'sequelize';
+import { STRING, NUMBER, BOOLEAN } from 'sequelize';
 import { CommentsModel } from './CommentsModel.js';
 import { TokenModel } from './TokenModel.js';
 
@@ -20,6 +20,11 @@ const UsersModel = sequelize.define(
     role: {
       type: STRING,
       defaultValue: 'user',
+    },
+    phonenumber: STRING,
+    isactive: {
+      type: BOOLEAN,
+      defaultValue: true,
     },
   },
   {

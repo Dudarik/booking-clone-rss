@@ -5,7 +5,8 @@ import { UsersModel } from '../models/UsersModel.js';
 import { tokenService } from './token-service.js';
 
 class UserService {
-  async signup(email, password, username, role) {
+  async signup(user) {
+    const { email, password } = user;
     await sequelize.authenticate();
 
     const userToAdd = await UsersModel.findOne({ where: { email } });
@@ -14,25 +15,20 @@ class UserService {
       throw new Error(`User with email: ${email} exists.`);
     }
     const passwordHash = await bcrypt.hash(password, 2);
-    // console.log('hash', passwordHash);
-    const newUser = {
-      email,
-      password: passwordHash,
-      username,
-      role,
-    };
+
+    const newUser = Object.assign({}, user, { password: passwordHash });
     // console.log('newUser', newUser);
-    const user = await UsersModel.create(newUser);
+    const addedUser = await UsersModel.create(newUser);
 
     // console.log('user', user);
-    const tokens = tokenService.generateTokens({ uid: user.uid, email: user.email });
-    await tokenService.saveRefreshTokenToDB(user.uid, tokens.rToken);
+    const tokens = tokenService.generateTokens({ uid: addedUser.uid, email: addedUser.email });
+    await tokenService.saveRefreshTokenToDB(addedUser.uid, tokens.rToken);
 
     await sequelize.close();
     return {
       ...tokens,
-      uid: user.uid,
-      email: user.email,
+      uid: addedUser.uid,
+      email: addedUser.email,
     };
   }
 }
