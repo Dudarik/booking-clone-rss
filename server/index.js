@@ -6,8 +6,8 @@ import cookieParser from 'cookie-parser';
 
 import { router } from './router/index.js';
 
-import { sequelize } from './db_settings/index.js';
-import { UsersModel } from './models/UsersModel.js';
+// import { sequelize } from './db_settings/index.js';
+// import { UsersModel } from './models/UsersModel.js';
 
 dotenv.config();
 

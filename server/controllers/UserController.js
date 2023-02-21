@@ -1,18 +1,23 @@
-// import { sequelize } from '../db_settings/index.js';
-
-// import { UsersModel } from '../models/UsersModel.js';
 import { userService } from '../services/user-service.js';
+import { validationResult } from 'express-validator';
+
+const MAX_AGE_COOKIE = 60 ** 3 * 24 * 1000;
 
 class UserController {
   async signup(req, res) {
     try {
       const { email, password, username, role } = req.body;
+      const { errors } = validationResult(req);
+      // console.log(errors);
+      if (errors.length > 0) {
+        throw new Error('Wrong email or password less than 3 symbols');
+      }
       // console.log(req.body);
       const user = await userService.signup({ email, password, username, role });
-      res.cookie('rtoken', user.rToken, { maxAge: 60 ** 3 * 24 * 1000, httpOnly: true });
+      res.cookie('rtoken', user.rToken, { maxAge: MAX_AGE_COOKIE, httpOnly: true });
       return res.json({ status: 200, user });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       res.json({
         status: 422,
         error: error.message,
@@ -22,7 +27,17 @@ class UserController {
 
   async signin(req, res) {
     try {
-    } catch (error) {}
+      const { email, password } = req.body;
+      const user = await userService.signin(email, password);
+
+      res.cookie('rtoken', user.rToken, { maxAge: MAX_AGE_COOKIE, httpOnly: true });
+      return res.json({ status: 200, user });
+    } catch (error) {
+      res.json({
+        status: 422,
+        error: error.message,
+      });
+    }
   }
 
   async logout(req, res) {
