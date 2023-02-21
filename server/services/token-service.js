@@ -14,6 +14,15 @@ class TokenService {
     };
   }
 
+  validateToken(token, secret) {
+    try {
+      return jwt.verify(token, secret);
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }
+
   async saveRefreshTokenToDB(uid, refreshtoken) {
     const existToken = await TokenModel.findOne({ where: { uid } });
     // console.log('exist token', existToken);
@@ -32,6 +41,14 @@ class TokenService {
     if (existToken) {
       await TokenModel.destroy({ where: { refreshtoken: rtoken } });
     }
+  }
+  async getTokenFormDB(rtoken) {
+    const token = await TokenModel.findOne({
+      where: {
+        refreshtoken: rtoken,
+      },
+    });
+    return token;
   }
 }
 

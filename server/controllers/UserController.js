@@ -45,10 +45,8 @@ class UserController {
     try {
       const { rtoken } = req.cookies;
 
-      // console.log('cockie', req.cookies);
-      // console.log('rToken', rtoken);
       if (!rtoken) {
-        throw new Error(`Wrong token, or undefined: ${rtoken}`);
+        throw new Error(`Token undefined: ${rtoken}`);
       }
       await userService.logout(rtoken);
 
@@ -61,7 +59,15 @@ class UserController {
   }
   async refresh(req, res) {
     try {
-    } catch (error) {}
+      const { rtoken } = req.cookies;
+
+      const user = await userService.refresh(rtoken);
+
+      res.cookie('rtoken', user.rToken, { maxAge: MAX_AGE_COOKIE, httpOnly: true });
+      return res.json({ status: 200, user });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async getUsers(req, res) {

@@ -67,6 +67,28 @@ class UserService {
   async logout(rtoken) {
     await tokenService.deleteTokenFromDB(rtoken);
   }
+
+  async refresh(rtoken) {
+    if (!rtoken) {
+      throw new Error('User is not authorized');
+    }
+    const user = tokenService.validateToken(rtoken, process.env.JWT_REFRESH_SECRET);
+    const tokenFromDB = tokenService.getTokenFormDB(rtoken);
+
+    if (!user || !tokenFromDB) {
+      throw new Error('User is not authorized');
+    }
+
+    const tokens = tokenService.generateTokens({ uid: user.uid, email: user.email });
+    await tokenService.saveRefreshTokenToDB(user.uid, tokens.rToken);
+
+    // await sequelize.close();
+    return {
+      ...tokens,
+      uid: user.uid,
+      email: user.email,
+    };
+  }
 }
 
 export const userService = new UserService();
