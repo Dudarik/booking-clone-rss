@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import { where } from 'sequelize';
 import { sequelize } from '../db_settings/index.js';
 
 import { UsersModel } from '../models/UsersModel.js';
@@ -33,7 +34,7 @@ class UserService {
     // console.log('newUser', newUser);
     const addedUser = await UsersModel.create(newUser);
 
-    return this.generateUserTokens(addedUser);
+    return await this.generateUserTokens(addedUser);
     // console.log('user', user);
     // const tokens = tokenService.generateTokens({ uid: addedUser.uid, email: addedUser.email });
     // await tokenService.saveRefreshTokenToDB(addedUser.uid, tokens.rToken);
@@ -65,7 +66,7 @@ class UserService {
       throw new Error('Wrong password');
     }
 
-    return this.generateUserTokens(user);
+    return await this.generateUserTokens(user);
 
     // const tokens = tokenService.generateTokens({ uid: user.uid, email: user.email });
     // await tokenService.saveRefreshTokenToDB(user.uid, tokens.rToken);
@@ -93,7 +94,7 @@ class UserService {
       throw new Error('User is not authorized');
     }
 
-    return this.generateUserTokens(user);
+    return await this.generateUserTokens(user);
 
     // const tokens = tokenService.generateTokens({ uid: user.uid, email: user.email });
     // await tokenService.saveRefreshTokenToDB(user.uid, tokens.rToken);
@@ -104,6 +105,16 @@ class UserService {
     //   uid: user.uid,
     //   email: user.email,
     // };
+  }
+  async getUsers(uidArray) {
+    await sequelize.authenticate();
+    // console.log(uidArray);
+    let queryParams = { attributes: ['uid', 'username', 'role'] };
+    if (uidArray.length !== 0) {
+      queryParams.where = { uid: uidArray };
+    }
+    // console.log('qparams', queryParams);
+    return await UsersModel.findAll(queryParams);
   }
 }
 

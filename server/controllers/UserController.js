@@ -72,17 +72,28 @@ class UserController {
 
   async getUsers(req, res) {
     try {
-      res.json(['333', '222']);
+      // console.log(req);
+      const users = await userService.getUsers([]);
+      return res.json({ status: 200, data: users });
     } catch (error) {
-      res.json(error);
+      res.json({
+        status: 422,
+        error: error.message,
+      });
     }
   }
 
   async getUser(req, res) {
     try {
-      res.json('222');
+      const userId = req.params.id;
+      const user = await userService.getUsers([userId]);
+      if (!user) throw new Error(`Can't find user ${userId} in datatbase`);
+      res.json({ status: 200, data: user[0] });
     } catch (error) {
-      res.json(error.message);
+      res.json({
+        status: 422,
+        error: error.message,
+      });
     }
   }
 }
