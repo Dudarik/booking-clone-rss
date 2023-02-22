@@ -35,6 +35,40 @@ class BusyTablesService {
       return error;
     }
   }
+
+  async getBusyTablesByDatetime(timestart, timeend) {
+    try {
+      if (!timestart) throw new Error(`Please input time start`);
+      if (!timeend) throw new Error(`Please input time end`);
+
+      return BusyTablesModel.findAll({ where: { timestart: { [Op.between]: [timestart, timeend] } } });
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+
+  async getFreeTables(tables, timestart, timeend) {
+    try {
+      if (Array.isArray(tables)) throw new Error(`Tables must be an array`);
+      if (!timestart) throw new Error(`Please input time start`);
+      if (!timeend) throw new Error(`Please input time end`);
+
+      const targetTabelsIds = tables.map((table) => table.tid);
+
+      const busyTables = await BusyTablesModel.findAll({
+        where: { tid: { [Op.or]: targetTabelsIds }, timestart: { [Op.between]: [timestart, timeend] } },
+      });
+
+      const busyTablesIds = busyTables.map((table) => table.tid);
+
+      return tables.filter((table) => busyTablesIds.includes(table.tid));
+    } catch (error) {
+      console.log(error.message);
+      return error;
+    }
+  }
+  // async getFreeTablesInRestaurantByDatetime(rid, timestart, timeend)
 }
 
 export const busyTablesService = new BusyTablesService();

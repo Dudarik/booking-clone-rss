@@ -1,6 +1,5 @@
 import { sequelize } from '../db_settings/index.js';
 import { STRING, NUMBER } from 'sequelize';
-import { UsersModel } from './UsersModel.js';
 
 const TokenModel = sequelize.define(
   'tokens',

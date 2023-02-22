@@ -1,6 +1,5 @@
 import { sequelize } from '../db_settings/index.js';
 import { NUMBER, TIME } from 'sequelize';
-import { RestaurantsModel } from './RestaurantsModel.js';
 
 const BusyTablesModel = sequelize.define(
   'busytables',

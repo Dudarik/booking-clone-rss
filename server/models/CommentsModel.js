@@ -1,7 +1,5 @@
 import { sequelize } from '../db_settings/index.js';
 import { STRING, NUMBER } from 'sequelize';
-import { RestaurantsModel } from './RestaurantsModel.js';
-import { UsersModel } from './UsersModel.js';
 
 const CommentsModel = sequelize.define(
   'comments',
