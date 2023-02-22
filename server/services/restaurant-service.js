@@ -33,7 +33,7 @@ class RestaurantService {
       Object.assign(queryParams.where, { rid: ridArray });
     }
 
-    console.log('qparams', queryParams);
+    // console.log('qparams', queryParams);
     return await RestaurantsModel.findAll(queryParams);
   }
 }

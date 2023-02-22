@@ -1,6 +1,6 @@
 import { sequelize } from '../db_settings/index.js';
 import { STRING, NUMBER } from 'sequelize';
-import { RestaurantsModel } from './RestaurantsModel.js';
+// import { RestaurantsModel } from './RestaurantsModel.js';
 
 const TablesModel = sequelize.define(
   'tables',
@@ -10,11 +10,12 @@ const TablesModel = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
-    restaurantid: {
+    rid: {
+      //restaurantID
       type: NUMBER,
       foreignKey: true,
     },
-    address: STRING,
+    tablename: STRING,
   },
   {
     createdAt: false,

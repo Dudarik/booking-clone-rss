@@ -10,15 +10,18 @@ const BusyTablesModel = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
-    tableid: {
+    tid: {
+      //tableID
       type: NUMBER,
       foreignKey: true,
     },
-    restaurantid: {
+    rid: {
+      //restaurantID
       type: NUMBER,
       foreignKey: true,
     },
-    userid: {
+    uid: {
+      //userID
       type: NUMBER,
       foreignKey: true,
     },
