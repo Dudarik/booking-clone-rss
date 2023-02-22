@@ -9,16 +9,16 @@ const CommentsModel = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
-    restaurantid: {
+    rid: {
       type: NUMBER,
       foreignKey: true,
     },
-    userid: {
+    uid: {
       type: NUMBER,
       foreignKey: true,
     },
-    commenttitle: STRING,
-    commentbody: STRING,
+    title: STRING,
+    body: STRING,
   },
   {
     createdAt: false,

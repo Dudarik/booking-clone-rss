@@ -5,6 +5,7 @@ import { userController } from '../controllers/UserController.js';
 import { body } from 'express-validator';
 import { restaurantController } from '../controllers/ResaurantController.js';
 import { tablesController } from '../controllers/TablesController.js';
+import { commentsController } from '../controllers/CommentsController.js';
 const router = new Router();
 
 const MIN_PASSWORD_LENGTH = 3;
@@ -31,10 +32,10 @@ router.get('/restaurants/:id', restaurantController.getRestaurant);
 
 router.post('/tables/:id', tablesController.bindTable);
 router.post('/tables', tablesController.addTable);
-
 router.get('/tables/:rid', tablesController.getTablesFromRestaraunt);
-
-// router.get('/tables/:datetime', tablesController.getTablesByDatetime);
 router.get('/tables', tablesController.getAllTables);
+
+router.post('/comments/:rid', commentsController.addComment);
+router.get('/comments/:rid', commentsController.getCommentsRestaurant);
 
 export { router };

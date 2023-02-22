@@ -50,6 +50,19 @@ class TokenService {
     });
     return token;
   }
+
+  async getUidByToken(rtoken) {
+    try {
+      const token = await TokenModel.findOne({
+        where: {
+          refreshtoken: rtoken,
+        },
+      });
+      return token.uid;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 export const tokenService = new TokenService();
