@@ -1,12 +1,15 @@
 import { BusyTablesModel } from '../models/BusyTables.js';
-const { Op } = require('sequelize');
+import { json, Op } from 'sequelize';
 
 class BusyTablesService {
   async isBusyTable(tid, timestart, timeend) {
-    const tableToBind = await BusyTablesModel.findOne({
-      where: { tid, timestart: { [Op.between]: [timestart, timeend] } },
-    });
+    const q = {
+      where: { tid, timestart: { [Op.lte]: timeend }, timeend: { [Op.gte]: timestart } },
+    };
+    // console.log('q', q);
+    const tableToBind = await BusyTablesModel.findOne(q);
 
+    // console.log(tableToBind);
     if (tableToBind) return true;
 
     return false;
@@ -22,7 +25,8 @@ class BusyTablesService {
       if (!timestart) throw new Error(`Please select time start`);
       if (!timeend) throw new Error(`Please select table to bind`);
 
-      if (this.isBusyTable(tid, timestart, timeend))
+      // console.log('isBusy', isBusy);
+      if (await this.isBusyTable(tid, timestart, timeend))
         throw new Error(`Can't bind table, coz he is already binded: "${tid}:${tablename}"`);
 
       const tableBinded = await BusyTablesModel.create({ ...table });
@@ -50,14 +54,47 @@ class BusyTablesService {
 
   async getFreeTables(tables, timestart, timeend) {
     try {
-      if (Array.isArray(tables)) throw new Error(`Tables must be an array`);
+      tables = JSON.parse(tables);
+      // if (Array.isArray(tables)) throw new Error(`Tables must be an array`);
       if (!timestart) throw new Error(`Please input time start`);
       if (!timeend) throw new Error(`Please input time end`);
 
       const targetTabelsIds = tables.map((table) => table.tid);
 
       const busyTables = await BusyTablesModel.findAll({
-        where: { tid: { [Op.or]: targetTabelsIds }, timestart: { [Op.between]: [timestart, timeend] } },
+        where: {
+          tid: { [Op.or]: targetTabelsIds },
+          timestart: { [Op.lte]: timeend },
+          timeend: { [Op.gte]: timestart },
+        },
+      });
+
+      const busyTablesIds = busyTables.map((table) => table.tid);
+
+      // console.log(tables);
+
+      return tables.filter((table) => !busyTablesIds.includes(table.tid));
+    } catch (error) {
+      console.log(error.message);
+      return error;
+    }
+  }
+
+  async getBusyTables(tables, timestart, timeend) {
+    try {
+      tables = JSON.parse(tables);
+      // if (Array.isArray(tables)) throw new Error(`Tables must be an array`);
+      if (!timestart) throw new Error(`Please input time start`);
+      if (!timeend) throw new Error(`Please input time end`);
+
+      const targetTabelsIds = tables.map((table) => table.tid);
+
+      const busyTables = await BusyTablesModel.findAll({
+        where: {
+          tid: { [Op.or]: targetTabelsIds },
+          timestart: { [Op.lte]: timeend },
+          timeend: { [Op.gte]: timestart },
+        },
       });
 
       const busyTablesIds = busyTables.map((table) => table.tid);

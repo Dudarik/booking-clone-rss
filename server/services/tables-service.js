@@ -44,7 +44,24 @@ class TablesService {
 
       if (tables instanceof Error) throw new Error(tables.error);
 
-      return busyTablesService.getFreeTables(tables, timestart, timeend);
+      return busyTablesService.getFreeTables(JSON.stringify(tables), timestart, timeend);
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+
+  async getBusyTablesInRestaurantByDatetime(rid, timestart, timeend) {
+    try {
+      if (!rid) throw new Error(`Please input time restaurant`);
+      if (!timestart) throw new Error(`Please input time start`);
+      if (!timeend) throw new Error(`Please input time end`);
+
+      const tables = await this.getAllTablesByRestaurantFromDB(rid);
+
+      if (tables instanceof Error) throw new Error(tables.error);
+
+      return busyTablesService.getBusyTables(JSON.stringify(tables), timestart, timeend);
     } catch (error) {
       console.log(error);
       return error;

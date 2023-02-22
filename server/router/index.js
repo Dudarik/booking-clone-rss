@@ -30,7 +30,10 @@ router.get('/restaurants', restaurantController.getRestaurants);
 router.get('/restaurants/:id', restaurantController.getRestaurant);
 
 router.post('/tables/:id', tablesController.bindTable);
+router.post('/tables', tablesController.addTable);
+
 router.get('/tables/:rid', tablesController.getTablesFromRestaraunt);
+
 // router.get('/tables/:datetime', tablesController.getTablesByDatetime);
 router.get('/tables', tablesController.getAllTables);
 
