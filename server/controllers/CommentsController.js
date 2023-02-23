@@ -1,5 +1,8 @@
 import { commentsService } from '../services/comments-service.js';
+import { restaurantService } from '../services/restaurant-service.js';
 import { tokenService } from '../services/token-service.js';
+import { userService } from '../services/user-service.js';
+import { restaurantController } from './ResaurantController.js';
 
 class CommentsController {
   async addComment(req, res) {
@@ -29,10 +32,28 @@ class CommentsController {
 
   async getCommentsRestaurant(req, res) {
     try {
-      const comments = await commentsService.getCommentsFromDB(req.params.rid);
+      let comments = await commentsService.getCommentsFromDB(req.params.rid);
 
       if (comments instanceof Error) throw new Error(comments.message);
 
+      const restaurantData = await restaurantService.getRestaurant(req.params.rid);
+
+      const userIds = Array.from(new Set(comments.map((comment) => comment.dataValues.uid)));
+
+      const users = await userService.getUsers(userIds);
+
+      const usersObj = Object.fromEntries(
+        users.map((user) => [user.dataValues.uid, { username: user.dataValues.username, role: user.dataValues.role }])
+      );
+
+      comments.forEach((comment) => {
+        Object.assign(comment.dataValues, {
+          username: usersObj[comment.dataValues.uid].username,
+          role: usersObj[comment.dataValues.uid].role,
+          restaurantTitle: restaurantData.dataValues.title,
+          address: restaurantData.dataValues.address,
+        });
+      });
       return res.json({
         status: 200,
         data: comments,

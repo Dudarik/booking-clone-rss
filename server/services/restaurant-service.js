@@ -36,6 +36,14 @@ class RestaurantService {
     // console.log('qparams', queryParams);
     return await RestaurantsModel.findAll(queryParams);
   }
+
+  async getRestaurant(rid) {
+    try {
+      return RestaurantsModel.findOne({ where: { rid } });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 export const restaurantService = new RestaurantService();
