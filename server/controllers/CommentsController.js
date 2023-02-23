@@ -1,8 +1,4 @@
-import { commentsService } from '../services/comments-service.js';
-import { restaurantService } from '../services/restaurant-service.js';
-import { tokenService } from '../services/token-service.js';
-import { userService } from '../services/user-service.js';
-import { restaurantController } from './ResaurantController.js';
+import { commentsService, restaurantService, tokenService, userService } from '../services/index.js';
 
 class CommentsController {
   async addComment(req, res) {
