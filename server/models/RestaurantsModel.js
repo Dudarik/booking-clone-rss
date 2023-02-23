@@ -1,5 +1,5 @@
 import { sequelize } from '../db_settings/index.js';
-import { STRING, NUMBER } from 'sequelize';
+import { STRING, NUMBER, BOOLEAN } from 'sequelize';
 import { TablesModel } from './TablesModel.js';
 import { CommentsModel } from './CommentsModel.js';
 
@@ -13,6 +13,10 @@ const RestaurantsModel = sequelize.define(
     },
     title: STRING,
     address: STRING,
+    isactive: {
+      type: BOOLEAN,
+      defaultValue: true,
+    },
   },
   {
     createdAt: false,

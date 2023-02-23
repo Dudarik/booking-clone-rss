@@ -27,7 +27,7 @@ class RestaurantService {
   }
 
   async getActiveRestaurantsFromDB(ridArray) {
-    let queryParams = { attributes: ['rid', 'title', 'address'], where: { isActive: true } };
+    let queryParams = { attributes: ['rid', 'title', 'address'], where: { isactive: true } };
 
     if (ridArray.length !== 0) {
       Object.assign(queryParams.where, { rid: ridArray });
