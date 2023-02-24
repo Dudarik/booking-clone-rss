@@ -34,6 +34,14 @@ class TablesService {
     return await TablesModel.findAll({ where: { rid } });
   }
 
+  async getTable(tid) {
+    try {
+      return TablesModel.findOne({ where: { tid } });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async getFreeTablesInRestaurantByDatetime(rid, timestart, timeend) {
     try {
       if (!rid) throw new Error(`Please input time restaurant`);
@@ -62,6 +70,37 @@ class TablesService {
       if (tables instanceof Error) throw new Error(tables.error);
 
       return busyTablesService.getBusyTables(JSON.stringify(tables), timestart, timeend);
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+
+  async setTableSettingsToDB(newSettings) {
+    try {
+      const { tid } = newSettings;
+      const tableToChange = await this.getTable(tid);
+
+      if (tableToChange instanceof Error) throw new Error(tableToChange.message);
+
+      const result = TablesModel.update({ ...newSettings }, { where: { tid } });
+
+      if (result instanceof Error) throw new Error(result.message);
+
+      return result;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+
+  async deleteTable(tid) {
+    try {
+      const tableToDelete = await this.getTable(tid);
+
+      if (tableToDelete instanceof Error) throw new Error(tableToDelete.message);
+
+      return await TablesModel.destroy({ where: { tid } });
     } catch (error) {
       console.log(error);
       return error;

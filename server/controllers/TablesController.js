@@ -86,9 +86,44 @@ class TablesController {
     }
   }
 
-  async getTablesByDatetime(req, res) {
+  async setTableSettings(req, res) {
     try {
-    } catch (error) {}
+      const tid = req.params.tid;
+      const tableParams = Object.assign({ tid }, req.body);
+      const result = await tablesService.setTableSettingsToDB(tableParams);
+
+      if (result instanceof Error) throw new Error(result.message);
+
+      return res.json({
+        status: 200,
+        data: result,
+      });
+    } catch (error) {
+      console.log(error.message);
+      return res.json({
+        status: 422,
+        error: error.message,
+      });
+    }
+  }
+
+  async deleteTables(req, res) {
+    try {
+      const result = await tablesService.deleteTable(req.params.tid);
+
+      if (result instanceof Error) throw new Error(result.message);
+
+      return res.json({
+        status: 200,
+        data: result,
+      });
+    } catch (error) {
+      console.log(error.message);
+      return res.json({
+        status: 422,
+        error: error.message,
+      });
+    }
   }
 }
 

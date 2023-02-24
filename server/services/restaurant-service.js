@@ -53,7 +53,7 @@ class RestaurantService {
       const { rid } = newSettings;
       const restaurantToChange = await this.getRestaurant(rid);
 
-      if (restaurantToChange instanceof Error) throw new Error(restaurantService.message);
+      if (restaurantToChange instanceof Error) throw new Error(restaurantToChange.message);
 
       const result = RestaurantsModel.update({ ...newSettings }, { where: { rid } });
 

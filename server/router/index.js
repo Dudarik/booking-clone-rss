@@ -36,6 +36,8 @@ router.post('/tables/:id', tablesController.bindTable);
 router.post('/tables', tablesController.addTable);
 router.get('/tables/:rid', tablesController.getTablesFromRestaraunt);
 router.get('/tables', tablesController.getAllTables);
+router.patch('/tables/:tid', tablesController.setTableSettings);
+router.delete('/tables/:tid', tablesController.deleteTables);
 
 router.post('/comments/:rid', commentsController.addComment);
 router.get('/comments/:rid', commentsController.getCommentsRestaurant);
