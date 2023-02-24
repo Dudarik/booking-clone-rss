@@ -8,6 +8,7 @@ const SALT_ROUNDS = 2;
 
 class UserService {
   async generateUserTokens(user) {
+    const { username, phonenumber } = user;
     const tokens = tokenService.generateTokens({ uid: user.uid, email: user.email });
     await tokenService.saveRefreshTokenToDB(user.uid, tokens.rToken);
 
@@ -15,6 +16,8 @@ class UserService {
       ...tokens,
       uid: user.uid,
       email: user.email,
+      username,
+      phonenumber: phonenumber ? phonenumber : '',
     };
   }
 
