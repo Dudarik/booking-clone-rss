@@ -24,7 +24,9 @@ router.post('/signin', validator_email_pass, userController.signin);
 router.post('/logout', userController.logout);
 router.get('/refresh', userController.refresh);
 router.get('/users', userController.getUsers);
-router.get('/users/:id', userController.getUser);
+router.get('/users/:uid', userController.getUser);
+router.patch('/users/:uid', userController.changeUser);
+router.delete('/users/:uid', userController.deleteUser);
 
 router.post('/restaurants', restaurantController.addRestaurant);
 router.get('/restaurants', restaurantController.getRestaurants);
@@ -41,5 +43,7 @@ router.delete('/tables/:tid', tablesController.deleteTables);
 
 router.post('/comments/:rid', commentsController.addComment);
 router.get('/comments/:rid', commentsController.getCommentsRestaurant);
+router.patch('/comments/:id', commentsController.changeComment);
+router.delete('/comments/:id', commentsController.deleteComment);
 
 export { router };

@@ -115,6 +115,51 @@ class UserService {
     // console.log('qparams', queryParams);
     return await UsersModel.findAll(queryParams);
   }
+
+  async getUser(uid) {
+    try {
+      let user = await UsersModel.findOne({ where: { uid } });
+
+      if (user instanceof Error) throw new Error(user.message);
+
+      return user.dataValues;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+
+  async changeUser(newUserSettings) {
+    try {
+      const { uid } = newUserSettings;
+
+      const userToChange = await this.getUser(uid);
+
+      if (userToChange instanceof Error) throw new Error(userToChange.message);
+
+      const result = UsersModel.update({ ...newUserSettings }, { where: { uid } });
+
+      if (result instanceof Error) throw new Error(result.message);
+
+      return result;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+
+  async deleteUser(uid) {
+    try {
+      const userToDelete = await this.getUser(uid);
+
+      if (userToDelete instanceof Error) throw new Error(userToDelete.message);
+
+      return await UsersModel.destroy({ where: { uid } });
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
 }
 
 export const userService = new UserService();

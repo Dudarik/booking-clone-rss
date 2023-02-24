@@ -1,5 +1,6 @@
 import { userService } from '../services/user-service.js';
 import { validationResult } from 'express-validator';
+import { tokenService } from '../services/token-service.js';
 
 const MAX_AGE_COOKIE = 60 ** 3 * 24 * 1000;
 const COOKIE_NAME = 'rtoken';
@@ -86,13 +87,61 @@ class UserController {
 
   async getUser(req, res) {
     try {
-      const userId = req.params.id;
+      const userId = req.params.uid;
       const user = await userService.getUsers([userId]);
       if (!user) throw new Error(`Can't find user ${userId} in datatbase`);
       res.json({ status: 200, data: user[0] });
     } catch (error) {
       res.json({
         status: 422,
+        error: error.message,
+      });
+    }
+  }
+
+  async changeUser(req, res) {
+    try {
+      const uid = req.params.uid;
+
+      const cookiesToken = req.cookies.rtoken;
+
+      const currentUid = await tokenService.getUidByToken(cookiesToken);
+
+      const currentUser = await userService.getUser(currentUid);
+
+      if (uid !== currentUid && currentUser.role !== 'admin') throw new Error('Access denied');
+
+      return res.json({
+        status: 200,
+        data: await userService.changeUser(Object.assign({ uid }, req.body)),
+      });
+    } catch (error) {
+      return res.json({
+        status: 403,
+        error: error.message,
+      });
+    }
+  }
+
+  async deleteUser(req, res) {
+    try {
+      const uid = req.params.uid;
+
+      const cookiesToken = req.cookies.rtoken;
+
+      const currentUid = await tokenService.getUidByToken(cookiesToken);
+
+      const currentUser = await userService.getUser(currentUid);
+
+      if (uid !== currentUid && currentUser.role !== 'admin') throw new Error('Access denied');
+
+      return res.json({
+        status: 200,
+        data: await userService.deleteUser(uid),
+      });
+    } catch (error) {
+      return res.json({
+        status: 403,
         error: error.message,
       });
     }

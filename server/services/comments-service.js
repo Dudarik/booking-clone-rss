@@ -32,6 +32,51 @@ class CommentsService {
       return error;
     }
   }
+
+  async getCommentFromDB(id) {
+    try {
+      const comment = CommentsModel.findOne({ where: { id } });
+
+      if (comment instanceof Error) throw new Error(comment.message);
+
+      return comment;
+    } catch (error) {
+      console.log(error.message);
+      return error;
+    }
+  }
+
+  async changeCommentInDB(commentData) {
+    try {
+      const { id } = commentData;
+
+      const commentToChange = await this.getCommentFromDB(id);
+
+      if (commentToChange instanceof Error) throw new Error(commentToChange.message);
+
+      const result = CommentsModel.update({ ...commentData }, { where: { id } });
+
+      if (result instanceof Error) throw new Error(result.message);
+
+      return result;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+
+  async deleteCommentFromDB(id) {
+    try {
+      const commentToDelete = await this.getCommentFromDB(id);
+
+      if (commentToDelete instanceof Error) throw new Error(commentToDelete.message);
+
+      return await CommentsModel.destroy({ where: { id } });
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
 }
 
 export const commentsService = new CommentsService();

@@ -62,6 +62,46 @@ class CommentsController {
       });
     }
   }
+
+  async changeComment(req, res) {
+    try {
+      const id = req.params.id;
+      const commentParams = Object.assign({ id }, req.body);
+      const result = await commentsService.changeCommentInDB(commentParams);
+
+      if (result instanceof Error) throw new Error(result.message);
+
+      return res.json({
+        status: 200,
+        data: result,
+      });
+    } catch (error) {
+      console.log(error.message);
+      return res.json({
+        status: 422,
+        error: error.message,
+      });
+    }
+  }
+
+  async deleteComment(req, res) {
+    try {
+      const result = await commentsService.deleteTable(req.params.id);
+
+      if (result instanceof Error) throw new Error(result.message);
+
+      return res.json({
+        status: 200,
+        data: result,
+      });
+    } catch (error) {
+      console.log(error.message);
+      return res.json({
+        status: 422,
+        error: error.message,
+      });
+    }
+  }
 }
 
 export const commentsController = new CommentsController();
