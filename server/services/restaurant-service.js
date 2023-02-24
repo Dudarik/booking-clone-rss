@@ -1,5 +1,8 @@
 import { sequelize } from '../db_settings/index.js';
+import { BusyTablesModel } from '../models/BusyTables.js';
+import { CommentsModel } from '../models/CommentsModel.js';
 import { RestaurantsModel } from '../models/RestaurantsModel.js';
+import { TablesModel } from '../models/TablesModel.js';
 
 class RestaurantService {
   async addRestaurantToDB(restaurant) {
@@ -42,6 +45,37 @@ class RestaurantService {
       return RestaurantsModel.findOne({ where: { rid } });
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async setRestaurantSettingsToDB(newSettings) {
+    try {
+      const { rid } = newSettings;
+      const restaurantToChange = await this.getRestaurant(rid);
+
+      if (restaurantToChange instanceof Error) throw new Error(restaurantService.message);
+
+      const result = RestaurantsModel.update({ ...newSettings }, { where: { rid } });
+
+      if (result instanceof Error) throw new Error(result.message);
+
+      return result;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+
+  async deleteRestaurant(rid) {
+    try {
+      const restaurantToDelete = await this.getRestaurant(rid);
+
+      if (restaurantToDelete instanceof Error) throw new Error(restaurantToDelete.message);
+
+      return await RestaurantsModel.destroy({ where: { rid } });
+    } catch (error) {
+      console.log(error);
+      return error;
     }
   }
 }

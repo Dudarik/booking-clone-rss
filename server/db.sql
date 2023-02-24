@@ -10,7 +10,7 @@ create table users (
 
 create table tokens (
   id serial primary key,
-  uid int references users(uid),
+  uid int references users(uid) ON DELETE CASCADE ON UPDATE CASCADE,
   refreshtoken text not null
 );
 
@@ -21,25 +21,26 @@ create table restaurants (
   isactive boolean default true
 );
 
+
 create table comments (
   id serial primary key,
-  rid int references restaurants(rid),
-  uid int references users(uid), -- ON DELETE SET NULL ON UPDATE CASCADE
+  rid int references restaurants(rid) ON DELETE CASCADE ON UPDATE CASCADE,
+  uid int references users(uid) ON DELETE CASCADE ON UPDATE CASCADE,
   title text,
   body text
 );
 
 create table tables (
   tid serial primary key,
-  rid int references restaurants(rid),
+  rid int references restaurants(rid) ON DELETE CASCADE ON UPDATE CASCADE,
   tableName text
 );
 
 create table busyTables (
   id serial primary key,
-  tid int references tables(tid),
-  rid int references restaurants(rid),
-  uid int references users(uid),
+  tid int references tables(tid) ON DELETE CASCADE ON UPDATE CASCADE,
+  rid int references restaurants(rid) ON DELETE CASCADE ON UPDATE CASCADE,
+  uid int references users(uid) ON DELETE CASCADE ON UPDATE CASCADE,
   timeStart timestamp,
   timeEnd timestamp
 );

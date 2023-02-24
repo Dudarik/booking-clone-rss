@@ -28,7 +28,9 @@ router.get('/users/:id', userController.getUser);
 
 router.post('/restaurants', restaurantController.addRestaurant);
 router.get('/restaurants', restaurantController.getRestaurants);
-router.get('/restaurants/:id', restaurantController.getRestaurant);
+router.get('/restaurants/:rid', restaurantController.getRestaurant);
+router.patch('/restaurants/:rid', restaurantController.setRestaurantSettings);
+router.delete('/restaurants/:rid', restaurantController.deleteRestaurant);
 
 router.post('/tables/:id', tablesController.bindTable);
 router.post('/tables', tablesController.addTable);

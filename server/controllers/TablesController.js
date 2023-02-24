@@ -4,6 +4,7 @@ import { tablesService } from '../services/tables-service.js';
 class TablesController {
   async addTable(req, res) {
     try {
+      // const uid = req.cookies
       const newTable = await tablesService.addTableToDB(req.body);
 
       if (newTable instanceof Error) throw new Error(newTable.message);

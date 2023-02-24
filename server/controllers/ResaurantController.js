@@ -38,7 +38,7 @@ class RestaurantController {
 
   async getRestaurant(req, res) {
     try {
-      const rid = req.params.id;
+      const rid = req.params.rid;
       const restaurant = await restaurantService.getActiveRestaurantsFromDB([rid]);
 
       if (!restaurant) throw new Error(`Can't find restaurant with id ${rid} indatabase`);
@@ -50,6 +50,46 @@ class RestaurantController {
     } catch (error) {
       console.log(error);
       res.json({
+        status: 422,
+        error: error.message,
+      });
+    }
+  }
+
+  async setRestaurantSettings(req, res) {
+    try {
+      const rid = req.params.rid;
+      const restaurantParams = Object.assign({ rid }, req.body);
+      const result = await restaurantService.setRestaurantSettingsToDB(restaurantParams);
+
+      if (result instanceof Error) throw new Error(result.message);
+
+      return res.json({
+        status: 200,
+        data: result,
+      });
+    } catch (error) {
+      console.log(error.message);
+      return res.json({
+        status: 422,
+        error: error.message,
+      });
+    }
+  }
+
+  async deleteRestaurant(req, res) {
+    try {
+      const result = await restaurantService.deleteRestaurant(req.params.rid);
+
+      if (result instanceof Error) throw new Error(result.message);
+
+      return res.json({
+        status: 200,
+        data: result,
+      });
+    } catch (error) {
+      console.log(error.message);
+      return res.json({
         status: 422,
         error: error.message,
       });
