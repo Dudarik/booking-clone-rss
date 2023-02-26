@@ -8,9 +8,10 @@ import { languages } from './i18n';
 import { defaultLocale } from './i18n';
 import { createI18n, useI18n } from 'vue-i18n';
 import VueKinesis from 'vue-kinesis';
+import Toast from 'vue-toastification';
+import 'vue-toastification/dist/index.css';
 import 'materialize-css';
 import 'materialize-css/dist/css/materialize.min.css';
-// import 'material-design-icons/iconfont/material-icons.css';
 
 const localStorageLang = localStorage.getItem('lang');
 
@@ -34,4 +35,5 @@ app.use(createPinia());
 app.use(router);
 app.use(i18n);
 app.use(VueKinesis);
+app.use(Toast);
 app.mount('#app');

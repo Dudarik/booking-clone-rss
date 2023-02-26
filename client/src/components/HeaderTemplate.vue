@@ -28,14 +28,18 @@
             <li>
               <a href="/restaurants">{{ $t('titles.restPage') }}</a>
             </li>
-            <li><a>About</a></li>
-            <li @click="modalIsShow = true">
-              <a>{{ $t('modal.log') }}</a>
-              <ModalLog />
-            </li>
-            <li @click="modalIsShow = true">
-              <a>{{ $t('modal.reg') }}</a>
-              <ModalReg />
+            <li>
+              <router-link v-if="getUserId && this.$route.name !== 'profile'" class="link" :to="{ name: 'profile' }"
+                >Profile</router-link
+              >
+              <!-- <router-link
+                class="link"
+                :to="{ name: 'add_new_property' }"
+                v-if="getUserId && this.$route.name !== 'add_new_property'"
+                >List your property</router-link
+              > -->
+              <router-link v-if="!getUserId" class="link-signin" :to="{ name: 'auth' }">Sign In</router-link>
+              <a class="link-signin" v-if="getUserId" @click="logOut()">Sign Out</a>
             </li>
           </ul>
         </div>
@@ -46,14 +50,28 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import ModalLog from './ModalLog.vue';
-import ModalReg from './ModalReg.vue';
+import { mapGetters } from 'vuex';
+import service from '../api';
 
 export default defineComponent({
   name: 'HeaderTemplate',
-  components: {
-    ModalLog,
-    ModalReg,
+  computed: {
+    ...mapGetters(['getUserId']),
+  },
+  methods: {
+    redirectToAuth() {
+      this.$router.push({ name: 'auth' });
+    },
+    redirectHome() {
+      this.$router.push({ name: 'home' });
+    },
+    async logOut() {
+      const res = await service.logOut(localStorage.getItem('rtoken'));
+      console.log(res);
+      localStorage.clear();
+      await this.$router.push({ name: 'home' });
+      location.reload();
+    },
   },
 });
 </script>
@@ -61,10 +79,6 @@ export default defineComponent({
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { storeToRefs } from 'pinia';
-import { useModal } from '@/store/modal';
-
-const { modalIsShow } = storeToRefs(useModal());
 
 const userTheme = ref('light-theme');
 const setTheme = (theme: string) => {
@@ -80,23 +94,22 @@ const toggleTheme = () => {
     setTheme('light-theme');
   }
 };
-// const getMediaPreference = () => {
-//   const hasDarkPreference = window.matchMedia('(prefers-color-scheme: dark)').matches;
-//   if (hasDarkPreference) {
-//     return 'dark-theme';
-//   } else {
-//     return 'light-theme';
-//   }
-// };
+const getMediaPreference = () => {
+  const hasDarkPreference = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (hasDarkPreference) {
+    return 'dark-theme';
+  } else {
+    return 'light-theme';
+  }
+};
 onMounted(() => {
   const currentTheme = localStorage.getItem('user-theme');
   if (currentTheme !== null) {
     setTheme(currentTheme);
+  } else {
+    const initUserTheme = getMediaPreference();
+    setTheme(initUserTheme);
   }
-  //   else {
-  //     // const initUserTheme = getMediaPreference();
-  //     // setTheme(initUserTheme);
-  //   }
 });
 
 const { t, locale } = useI18n({ useScope: 'global' });
@@ -107,10 +120,13 @@ const switchLang = () => {
 </script>
 
 <style scoped lang="scss">
+// :root.dark-theme {
+
+// }
+
 h1 {
   margin-top: -10px;
 }
-
 .card {
   display: inline;
 }

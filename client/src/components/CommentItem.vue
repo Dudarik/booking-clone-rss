@@ -1,33 +1,30 @@
 <template>
   <div class="comment">
     <div>
-      <div>{{ comments.commentId }}</div>
-      <div><strong>Title:</strong> {{ comments.commentTitle }}</div>
-      <div><strong>Description:</strong> {{ comments.commentBody }}</div>
+      <div>{{ comment.username }}</div>
+      <div><strong>Title:</strong> {{ comment.title }}</div>
+      <div><strong>Description:</strong> {{ comment.body }}</div>
     </div>
-    <div class="comment__btn">
-      <my-button @click="$emit('remove', comments)">Удалить</my-button>
+    <div class="comment__btns">
+      <my-button @click="$emit('remove', comment)">Delete</my-button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-// const props = defineProps<{
-//   comments: {
-//     type: Object;
-//   };
-// }>();
-export default {
+import { defineComponent } from 'vue';
+export default defineComponent({
+  name: 'CommentItem',
   props: {
-    comments: {
+    comment: {
       type: Object,
-      required: false,
+      required: true,
     },
   },
-};
+});
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .comment {
   padding: 15px;
   border: 2px solid teal;
@@ -36,7 +33,7 @@ export default {
   align-items: center;
   justify-content: space-between;
 }
-.comment__btn {
+.comment__btns {
   display: flex;
 }
 </style>

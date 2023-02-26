@@ -78,6 +78,7 @@ const submitRegForm = (): void => {
 </script>
 
 <style lang="scss" scoped>
+// @import 'material-design-icons-iconfont/src/material-design-icons';
 .modal {
   display: flex;
   align-items: center;

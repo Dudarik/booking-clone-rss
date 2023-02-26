@@ -26,8 +26,6 @@ fetch(`https://api.github.com/users/${props.name}`)
 <style lang="scss" scoped>
 .github-link {
   display: inline;
-  // justify-content: center;
-  // align-items: center;
   padding: 5px;
   margin-left: 10px;
   &__img {
